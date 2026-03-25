@@ -63,3 +63,10 @@ output "sqs_queue_url" {
   value = module.database.sqs_queue_url
 }
 
+############### OUTPUTS For GITHUB ACTIONS ROLE ARN ###########################
+
+output "github_actions_role_arnaction" {
+  description = "OUTPUTS For GITHUB ACTIONS ROLE ARN"
+  value = aws_iam_role.OIDC_github_actions.arn
+}
+  
