@@ -4,6 +4,7 @@
 *.tfstate
 *.tfstate.backup
 *.tfstate.lock.info
+terraform.tfvars
 
 # Keys — NEVER commit private keys
 *.pem
