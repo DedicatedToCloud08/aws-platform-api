@@ -10,6 +10,10 @@ resource "aws_iam_openid_connect_provider" "OIDC" {
   url = "https://token.actions.githubusercontent.com"  # This is where tokens come from
   client_id_list = [ "sts.amazonaws.com" ]               # This is for whom the tokens are
   thumbprint_list = [ data.tls_certificate.github_oidc_thumbprint.certificates[0].sha1_fingerprint ]
+
+   lifecycle {
+    prevent_destroy = true
+  }
 }
 
 data "aws_iam_policy_document" "github_actions_trust" {
@@ -38,6 +42,10 @@ data "aws_iam_policy_document" "github_actions_trust" {
 resource "aws_iam_role" "OIDC_github_actions" {
   name = "${local.name_prefix}-OIDC-Github-Actions"
   assume_role_policy = data.aws_iam_policy_document.github_actions_trust.json
+
+    lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "github_actions_admin" {
