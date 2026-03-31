@@ -40,61 +40,68 @@ resource "aws_iam_role" "OIDC_github_actions" {
   assume_role_policy = data.aws_iam_policy_document.github_actions_trust.json
 }
 
-resource "aws_iam_role_policy" "github_actions" {
-  name = "${local.name_prefix}-policy-for-actions"
+resource "aws_iam_role_policy_attachment" "github_actions_admin" {
   role = aws_iam_role.OIDC_github_actions.id
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
 
-  policy = jsonencode(
-    {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "ECR",
-      "Effect": "Allow",
-      "Action": [
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:InitiateLayerUpload",
-        "ecr:UploadLayerPart",
-        "ecr:CompleteLayerUpload",
-        "ecr:PutImage"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ECS",
-      "Effect": "Allow",
-      "Action": [
-        "ecs:UpdateService",
-        "ecs:DescribeTaskDefinition",
-        "ecs:DescribeServices",
-        "ecs:RegisterTaskDefinition"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "IAM",
-      "Effect": "Allow",
-      "Action": [
-        "iam:PassRole"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "S3ForTerraformstate",
-      "Effect": "Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject",
-        "s3:ListBucket"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-  )
-}
+## Please change to the below for production level
+
+# resource "aws_iam_role_policy" "github_actions" {
+#   name = "${local.name_prefix}-policy-for-actions"
+#   role = aws_iam_role.OIDC_github_actions.id
+
+#   policy = jsonencode(
+#     {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Sid": "ECR",
+#       "Effect": "Allow",
+#       "Action": [
+#         "ecr:GetAuthorizationToken",
+#         "ecr:BatchCheckLayerAvailability",
+#         "ecr:InitiateLayerUpload",
+#         "ecr:UploadLayerPart",
+#         "ecr:CompleteLayerUpload",
+#         "ecr:PutImage"
+#       ],
+#       "Resource": "*"
+#     },
+#     {
+#       "Sid": "ECS",
+#       "Effect": "Allow",
+#       "Action": [
+#         "ecs:UpdateService",
+#         "ecs:DescribeTaskDefinition",
+#         "ecs:DescribeServices",
+#         "ecs:RegisterTaskDefinition"
+#       ],
+#       "Resource": "*"
+#     },
+#     {
+#       "Sid": "IAM",
+#       "Effect": "Allow",
+#       "Action": [
+#         "iam:PassRole"
+#       ],
+#       "Resource": "*"
+#     },
+#     {
+#       "Sid": "S3ForTerraformstate",
+#       "Effect": "Allow",
+#       "Action": [
+#         "s3:GetObject",
+#         "s3:PutObject",
+#         "s3:DeleteObject",
+#         "s3:ListBucket"
+#       ],
+#       "Resource": "*"
+#     }
+#   ]
+# }
+#   )
+# }
 
 module "networking" {
   source = "./modules/Networking"
