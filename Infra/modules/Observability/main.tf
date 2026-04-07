@@ -1,6 +1,7 @@
 resource "aws_sns_topic" "sns_topic" {
   name = "${var.name_prefix}-sns-alerts"
 
+
   tags = {
     Name = "${var.name_prefix}-sns-alerts"
   }
