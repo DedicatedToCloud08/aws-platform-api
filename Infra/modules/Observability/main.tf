@@ -1,6 +1,9 @@
 resource "aws_sns_topic" "sns_topic" {
   name = "${var.name_prefix}-sns-alerts"
 
+  lifecycle {
+    prevent_destroy = true
+  }
 
   tags = {
     Name = "${var.name_prefix}-sns-alerts"
@@ -11,6 +14,10 @@ resource "aws_sns_topic_subscription" "sns_topic_subscription" {
   topic_arn = aws_sns_topic.sns_topic.arn
   protocol  = "email"
   endpoint  = var.email
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_cloudwatch_metric_alarm" "ECS_80_high_memory" {
