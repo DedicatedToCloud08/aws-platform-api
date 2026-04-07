@@ -75,5 +75,5 @@ output "github_actions_role_arnaction" {
 
 output "sns_topic_arn" {
   description = "Output from Observability module"
-  value = module.Observability.sns_topic_arn
+  value       = module.Observability.sns_topic_arn
 }

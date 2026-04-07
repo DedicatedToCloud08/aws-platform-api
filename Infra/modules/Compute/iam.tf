@@ -5,18 +5,18 @@
 
 data "aws_iam_policy_document" "ecs_trust" {
   statement {
-    effect = "Allow"
-    actions = [ "sts:AssumeRole" ]
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
 
     principals {
-      type = "Service"
-      identifiers = [ "ecs-tasks.amazonaws.com" ]
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
     }
   }
 }
 
 resource "aws_iam_role" "execution_role_ecs" {
-  name = "${var.name_prefix}-execution-role-ecs"
+  name               = "${var.name_prefix}-execution-role-ecs"
   assume_role_policy = data.aws_iam_policy_document.ecs_trust.json
 
   tags = {
@@ -25,7 +25,7 @@ resource "aws_iam_role" "execution_role_ecs" {
 }
 
 resource "aws_iam_role_policy_attachment" "execution_role_ecs" {
-  role = aws_iam_role.execution_role_ecs.id
+  role       = aws_iam_role.execution_role_ecs.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -33,7 +33,7 @@ resource "aws_iam_role_policy_attachment" "execution_role_ecs" {
 #### TASK ROLE For App to converse with Services #####
 
 resource "aws_iam_role" "app_comms_role" {
-  name = "${var.name_prefix}-apps-comms-role"
+  name               = "${var.name_prefix}-apps-comms-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_trust.json
 
   tags = {
@@ -45,27 +45,27 @@ resource "aws_iam_role_policy" "policy_sqs_secret" {
   name = "${var.name_prefix}-sqs-secert"
   role = aws_iam_role.app_comms_role.id
   policy = jsonencode({
-"Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "Statement1",
-      "Effect": "Allow",
-      "Action": [
-        "sqs:DeleteMessage",
-        "sqs:ReceiveMessage",
-        "sqs:SendMessage",
-        "sqs:GetQueueAttributes"
-      ],
-      "Resource": [var.sqs_queue_arn]
-    },
-    {
-      "Sid": "Statement2",
-      "Effect": "Allow",
-      "Action": [
-        "secretsmanager:GetSecretValue"
-      ],
-      "Resource": [var.db_secret_arn]
-    }
-  ]
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "Statement1",
+        "Effect" : "Allow",
+        "Action" : [
+          "sqs:DeleteMessage",
+          "sqs:ReceiveMessage",
+          "sqs:SendMessage",
+          "sqs:GetQueueAttributes"
+        ],
+        "Resource" : [var.sqs_queue_arn]
+      },
+      {
+        "Sid" : "Statement2",
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue"
+        ],
+        "Resource" : [var.db_secret_arn]
+      }
+    ]
   })
 }
