@@ -61,3 +61,8 @@ variable "db_instance_type" {
   type        = string
   default     = "db.t3.micro"
 }
+
+variable "alert_email" {
+  description = "Alert Email for SNS TOPIC"
+  type = string
+}

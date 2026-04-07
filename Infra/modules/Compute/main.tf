@@ -28,7 +28,7 @@ resource "aws_ecs_task_definition" "task_definition" {
             {
             containerPort = 8000
             protocol = "TCP"
-        }
+            }
         ]
 
         environment = [

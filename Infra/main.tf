@@ -157,4 +157,14 @@ module "compute" {
   db_secret_arn      = module.database.db_secret_arn
 }
 
+module "Observability" {
+  source = "./modules/Observability"
+  name_prefix = local.name_prefix
+  email = var.alert_email
+  ecs_service_name = module.compute.ecs_service_name
+  ecs_cluster_name = module.compute.ecs_cluster_name
+  alb_arn_suffix = module.compute.alb_arn_suffix
+  target_group_arn_suffix = module.compute.target_group_arn_suffix
+}
+
 #asdasd

@@ -1,5 +1,5 @@
 # For an IAM Role there are three building blocks that make it
-# 1. Trust Policy - Which is createded using a data source "aws_iam_policy_document"
+# 1. Trust Policy - Which is created using a data source "aws_iam_policy_document"
 # 2. Role - which is created using resource "aws_iam_role"
 # 3. Policy attachment - which actually attaches permissions to do things using resource "aws_iam_role_policy_attachment"
 

@@ -70,3 +70,10 @@ output "github_actions_role_arnaction" {
   value       = aws_iam_role.OIDC_github_actions.arn
 }
 
+
+############### OUTPUTS EXPOSED FROM Database Module ###########################
+
+output "sns_topic_arn" {
+  description = "Output from Observability module"
+  value = module.Observability.sns_topic_arn
+}
