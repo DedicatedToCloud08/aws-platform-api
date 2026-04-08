@@ -8,6 +8,7 @@ resource "aws_security_group" "alb_sg" {
   }
 
   egress {
+    description = "Allow all trafic to internet from ALB"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -15,6 +16,7 @@ resource "aws_security_group" "alb_sg" {
   }
 
   ingress {
+    description = "Allow traffic from internet to port 80 HTTP for our application"
     from_port   = 80
     to_port     = 80
     protocol    = "TCP"
@@ -33,6 +35,7 @@ resource "aws_security_group" "ecs_sg" {
   }
 
   egress {
+    description = "Allow all trafic from ECS to internet to update etc"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -40,6 +43,7 @@ resource "aws_security_group" "ecs_sg" {
   }
 
   ingress {
+    description     = "Allow all traffic from SG of ALB to port 8000 where our app is running in a container"
     from_port       = 8000
     to_port         = 8000
     protocol        = "TCP"
@@ -53,7 +57,7 @@ resource "aws_security_group" "rds_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description     = "PostgreSQL from ECS only"
+    description     = "PostgreSQL accessible from ECS only"
     from_port       = 5432
     to_port         = 5432
     protocol        = "TCP"
@@ -61,6 +65,7 @@ resource "aws_security_group" "rds_sg" {
   }
 
   egress {
+    description = "Requests from RDS to internet for updates and upgrades"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

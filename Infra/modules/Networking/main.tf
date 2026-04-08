@@ -69,6 +69,7 @@ resource "aws_security_group" "sg_nat" {
 
   # Allow all outbound to internet
   egress {
+    description = "Allow all internet traffic originating from the Instance"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -77,6 +78,7 @@ resource "aws_security_group" "sg_nat" {
 
   # Allow all traffic from private subnets inbound
   ingress {
+    description = "Allow all incoming traffic from private subnets to go to internet"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -100,6 +102,12 @@ resource "aws_instance" "nat_instance" {
   subnet_id              = aws_subnet.public[0].id
   vpc_security_group_ids = [aws_security_group.sg_nat.id]
   source_dest_check      = false
+  ebs_optimized          = true
+
+  metadata_options {
+    http_tokens   = "required"
+    http_endpoint = "enabled"
+  }
 
   user_data = <<-EOF
 #!/bin/bash

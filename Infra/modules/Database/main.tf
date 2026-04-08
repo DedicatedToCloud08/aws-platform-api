@@ -60,7 +60,9 @@ resource "aws_db_instance" "rds_instance" {
   # encryption at rest
   storage_encrypted = true
 
-  publicly_accessible = false
+  publicly_accessible        = false
+  auto_minor_version_upgrade = true
+  copy_tags_to_snapshot      = true
 
   tags = {
     Name = "${var.name_prefix}-rds-instance"
