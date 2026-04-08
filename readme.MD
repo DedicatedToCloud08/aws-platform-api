@@ -246,4 +246,5 @@ aws-platform-api/
 
 ## Author
 
-Built by Prathamesh as a portfolio project demonstrating production-grade AWS infrastructure skills with Terraform, Docker, and GitHub Actions CI/CD.
+Built by Prathamesh
+- project demonstrating production-grade AWS infrastructure skills with Terraform, Docker, and GitHub Actions CI/CD.
